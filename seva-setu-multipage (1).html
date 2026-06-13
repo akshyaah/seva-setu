@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Seva Setu — National Non-Profit Registry</title>
+<meta name="description" content="Seva Setu is a single-window registry for Non-Profit Organizations enabling access to government grant portals, schemes, and benefits."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f2d52;
+  --navy-mid:#1e3a5f;
+  --blue:#1d6fb8;
+  --blue-light:#3b82f6;
+  --accent:#f97316;
+  --accent-light:#fff7ed;
+  --green:#16a34a;
+  --gray-50:#f8fafc;
+  --gray-100:#f1f5f9;
+  --gray-200:#e2e8f0;
+  --gray-400:#94a3b8;
+  --gray-600:#475569;
+  --gray-800:#1e293b;
+  --text:#1e293b;
+  --text-muted:#64748b;
+  --white:#fff;
+  --radius:10px;
+  --radius-lg:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--white);font-size:15px;line-height:1.65}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+h1,h2,h3,h4{font-family:'Sora',sans-serif;line-height:1.25}
+.page{display:none}
+.page.active{display:block}
+
+/* ── DISCLAIMER ── */
+.disclaimer{background:#fefce8;border-bottom:2px solid #d97706;padding:9px 20px;text-align:center;font-size:12px;color:#92400e;font-weight:500}
+
+/* ── NAVBAR ── */
+nav{background:var(--navy);position:sticky;top:0;z-index:200}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.nav-brand{display:flex;align-items:center;gap:10px;padding:14px 0;cursor:pointer}
+.nav-logo-mark{width:32px;height:32px;background:var(--blue-light);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo-mark svg{width:18px;height:18px;fill:white}
+.nav-brand-text{color:white;font-family:'Sora',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.02em}
+.nav-brand-text span{display:block;font-size:10px;font-weight:400;color:#93c5fd;letter-spacing:0.06em;text-transform:uppercase;font-family:'Inter',sans-serif}
+.nav-links{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
+.nav-links a{color:#cbd5e1;font-size:13px;padding:8px 12px;border-radius:6px;transition:all 0.15s;cursor:pointer}
+.nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,0.1);color:white}
+.nav-cta{background:var(--accent);color:white!important;padding:8px 18px!important;border-radius:8px;font-weight:600;transition:background 0.15s!important}
+.nav-cta:hover{background:#ea6c00!important}
+.nav-a11y{display:flex;align-items:center;gap:6px;padding:8px 0}
+.nav-a11y button{background:none;border:1px solid #334155;color:#94a3b8;padding:3px 8px;border-radius:4px;cursor:pointer;font-size:11px;font-family:'Inter',sans-serif}
+.nav-a11y button:hover{border-color:#64748b;color:white}
+
+/* ── HERO (HOME) ── */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#1a4a80 100%);color:white;padding:80px 24px 0;overflow:hidden}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:flex-end}
+.hero-eyebrow{font-size:12px;color:#93c5fd;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.hero-eyebrow::before{content:'';display:inline-block;width:24px;height:2px;background:#93c5fd;border-radius:2px}
+.hero h1{font-size:40px;font-weight:700;line-height:1.15;margin-bottom:20px}
+.hero h1 em{color:#93c5fd;font-style:normal}
+.hero-desc{font-size:15px;color:#bfdbfe;line-height:1.7;margin-bottom:8px}
+.hero-note{font-size:12px;color:#93c5fd;font-style:italic;margin-bottom:28px;padding-left:12px;border-left:2px solid rgba(147,197,253,0.4)}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all 0.15s}
+.btn-primary{background:var(--accent);color:white}
+.btn-primary:hover{background:#ea6c00;transform:translateY(-1px)}
+.btn-ghost{background:rgba(255,255,255,0.1);color:white;border:1.5px solid rgba(255,255,255,0.3)}
+.btn-ghost:hover{background:rgba(255,255,255,0.2)}
+.btn-navy{background:var(--navy);color:white}
+.btn-navy:hover{background:#0d2444}
+.btn-white{background:white;color:var(--navy)}
+.btn-white:hover{background:var(--gray-100)}
+.btn-blue{background:var(--blue);color:white}
+.btn-blue:hover{background:#1558a0}
+.hero-img-wrap{border-radius:16px 16px 0 0;overflow:hidden;height:360px;position:relative}
+.hero-img-wrap img{width:100%;height:100%;object-fit:cover}
+.hero-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,45,82,0.5),transparent 60%)}
+.hero-advisory{background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.4);border-radius:10px;padding:14px 18px;font-size:13px;color:#fed7aa;margin-bottom:32px}
+.hero-advisory strong{color:#fb923c}
+
+/* ── STAT BAR ── */
+.stat-bar{background:var(--navy-mid);padding:28px 24px}
+.stat-bar-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px}
+.stat-item{text-align:center}
+.stat-num{font-family:'Sora',sans-serif;font-size:26px;font-weight:700;color:white}
+.stat-label{font-size:12px;color:#93c5fd;margin-top:4px}
+
+/* ── SECTIONS ── */
+.section{padding:72px 24px}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-alt{background:var(--gray-50)}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.section-title{font-size:30px;font-weight:700;margin-bottom:12px}
+.section-sub{font-size:15px;color:var(--text-muted);max-width:560px;line-height:1.7}
+.centered{text-align:center}
+.centered .section-sub{margin:0 auto 40px}
+.section-title+.section-sub{margin-top:10px}
+
+/* ── CARDS ── */
+.cards-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:40px}
+.cards-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:40px}
+.card{background:white;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:28px}
+.card-icon{width:48px;height:48px;border-radius:12px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:22px}
+.card-icon.blue{background:#eff6ff}
+.card-icon.orange{background:#fff7ed}
+.card-icon.green{background:#f0fdf4}
+.card-icon.purple{background:#f5f3ff}
+.card h3{font-size:16px;font-weight:600;margin-bottom:8px}
+.card p{font-size:13px;color:var(--text-muted);line-height:1.65}
+
+/* ── STEPS ── */
+.steps{display:flex;flex-direction:column;gap:12px;margin-top:40px}
+.step{display:flex;gap:20px;align-items:flex-start;background:white;border:1px solid var(--gray-200);border-radius:12px;padding:20px 24px}
+.step-badge{background:var(--navy);color:white;font-size:10px;font-weight:700;padding:4px 10px;border-radius:6px;white-space:nowrap;letter-spacing:0.05em;flex-shrink:0;margin-top:3px}
+.step-body{flex:1}
+.step-body h3{font-size:15px;font-weight:600;margin-bottom:5px}
+.step-body p{font-size:13px;color:var(--text-muted);line-height:1.6}
+.step-time{font-size:11px;color:var(--blue);background:#eff6ff;border-radius:20px;padding:4px 12px;white-space:nowrap;flex-shrink:0;font-weight:500}
+
+/* ── DOCS GRID ── */
+.docs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:28px}
+.doc-item{display:flex;align-items:center;gap:10px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;padding:12px 16px;font-size:13px}
+.doc-check{color:var(--green);font-size:16px;flex-shrink:0}
+
+/* ── PORTAL GRID ── */
+.portal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:32px}
+.portal-card{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--gray-200);border-radius:10px;padding:14px 18px;font-size:13px;background:white;cursor:pointer;transition:all 0.15s;font-weight:500}
+.portal-card:hover{border-color:var(--blue-light);color:var(--blue);background:#f8fbff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(29,111,184,0.08)}
+.portal-arrow{color:var(--gray-400);font-size:12px}
+
+/* ── BADGES STRIP ── */
+.badges-strip{background:#eff6ff;border-top:1px solid #dbeafe;border-bottom:1px solid #dbeafe;padding:28px 24px}
+.badges-strip-inner{max-width:1100px;margin:0 auto;text-align:center}
+.badges-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.badges-wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.badge-pill{background:white;border:1px solid #bfdbfe;color:var(--navy);font-size:12px;padding:6px 16px;border-radius:20px;font-weight:500}
+
+/* ── FAQ ── */
+.faq-list{max-width:720px;margin:40px auto 0}
+details{border:1px solid var(--gray-200);border-radius:10px;margin-bottom:8px;background:white;overflow:hidden}
+details summary{padding:18px 22px;font-size:14px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:'+';font-size:20px;color:var(--blue);flex-shrink:0;font-weight:400}
+details[open] summary::after{content:'−'}
+details[open] summary{border-bottom:1px solid var(--gray-200)}
+.faq-body{padding:16px 22px;font-size:13px;color:var(--text-muted);line-height:1.7}
+
+/* ── SEARCH ── */
+.search-bar{display:flex;gap:8px;flex-wrap:wrap;max-width:800px;margin:28px auto 0}
+.search-bar select,.search-bar input{border:1px solid var(--gray-200);border-radius:8px;padding:11px 14px;font-size:13px;background:white;color:var(--text);font-family:'Inter',sans-serif}
+.search-bar select{min-width:150px}
+.search-bar input{flex:1;min-width:200px}
+.search-bar input:focus{outline:none;border-color:var(--blue-light);box-shadow:0 0 0 3px rgba(59,130,246,0.15)}
+.search-bar button{background:var(--navy);color:white;border:none;border-radius:8px;padding:11px 22px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap}
+.search-bar button:hover{background:var(--blue)}
+.search-note{font-size:11px;color:var(--text-muted);text-align:center;margin-top:8px}
+
+/* ── STATS TABLE ── */
+.stats-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.stats-tabs button{background:var(--gray-100);border:1px solid var(--gray-200);color:var(--text-muted);padding:7px 16px;border-radius:8px;font-size:12px;cursor:pointer;font-weight:500;font-family:'Inter',sans-serif;transition:all 0.15s}
+.stats-tabs button.active{background:var(--navy);color:white;border-color:var(--navy)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
+.stat-card{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:18px;text-align:center}
+.stat-card .num{font-family:'Sora',sans-serif;font-size:26px;font-weight:700;color:var(--navy)}
+.stat-card .lbl{font-size:12px;color:var(--text-muted);margin-top:4px}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{text-align:left;padding:10px 14px;border-bottom:2px solid var(--gray-200);color:var(--text-muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:0.04em}
+.data-table td{padding:12px 14px;border-bottom:1px solid var(--gray-100);color:var(--text)}
+.data-table tr:last-child td{border-bottom:none}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.pill-blue{background:#eff6ff;color:#1d4ed8}
+.pill-green{background:#f0fdf4;color:#16a34a}
+.source-note{font-size:11px;color:var(--text-muted);border-top:1px solid var(--gray-200);padding-top:12px;margin-top:4px}
+
+/* ── ABOUT PAGE ── */
+.about-hero{background:var(--navy);color:white;padding:72px 24px}
+.about-hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.about-hero h1{font-size:36px;font-weight:700;margin-bottom:16px}
+.about-hero p{font-size:15px;color:#bfdbfe;line-height:1.75}
+.about-img{border-radius:16px;overflow:hidden;height:320px}
+.about-img img{width:100%;height:100%;object-fit:cover}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;margin-top:40px}
+.mission-text h2{font-size:26px;font-weight:700;margin-bottom:14px}
+.mission-text p{font-size:14px;color:var(--text-muted);line-height:1.75;margin-bottom:12px}
+.mission-img{border-radius:16px;overflow:hidden;height:280px}
+.mission-img img{width:100%;height:100%;object-fit:cover}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-top:40px}
+.team-card{background:white;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:24px;text-align:center}
+.team-avatar{width:64px;height:64px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:white}
+.team-card h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.team-card p{font-size:12px;color:var(--text-muted)}
+
+/* ── CONTACT ── */
+.contact-hero{background:var(--navy);color:white;padding:72px 24px}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px}
+.contact-form{background:white;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:36px}
+.contact-form h3{font-size:20px;font-weight:700;margin-bottom:24px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;color:var(--text)}
+.form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid var(--gray-200);border-radius:8px;padding:10px 14px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--blue-light);box-shadow:0 0 0 3px rgba(59,130,246,0.1)}
+.form-group textarea{resize:vertical;min-height:120px}
+.contact-info{padding-top:8px}
+.contact-info h3{font-size:20px;font-weight:700;margin-bottom:24px}
+.contact-item{display:flex;gap:14px;margin-bottom:24px}
+.contact-icon{width:44px;height:44px;border-radius:10px;background:#eff6ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.contact-item-text h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.contact-item-text p{font-size:13px;color:var(--text-muted);line-height:1.5}
+
+/* ── REGISTER PAGE ── */
+.register-hero{background:linear-gradient(135deg,var(--navy) 0%,#1a4a80 100%);color:white;padding:72px 24px}
+.register-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px;align-items:start}
+.register-form{background:white;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:36px}
+.register-form h3{font-size:20px;font-weight:700;margin-bottom:6px}
+.register-form p{font-size:13px;color:var(--text-muted);margin-bottom:24px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.register-aside{padding-top:8px}
+.register-aside h3{font-size:18px;font-weight:700;margin-bottom:20px}
+.checklist{list-style:none}
+.checklist li{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--text-muted);padding:10px 0;border-bottom:1px solid var(--gray-100)}
+.checklist li:last-child{border-bottom:none}
+.check-icon{color:var(--green);font-size:15px;flex-shrink:0;margin-top:1px}
+
+/* ── PAGE HERO GENERIC ── */
+.page-hero{background:var(--navy);color:white;padding:56px 24px}
+.page-hero-inner{max-width:1100px;margin:0 auto}
+.page-hero h1{font-size:34px;font-weight:700;margin-bottom:10px}
+.page-hero p{font-size:15px;color:#bfdbfe;max-width:560px;line-height:1.7}
+.breadcrumb{font-size:12px;color:#93c5fd;margin-bottom:16px;display:flex;gap:6px;align-items:center}
+.breadcrumb span{opacity:0.5}
+
+/* ── FOOTER ── */
+footer{background:var(--gray-800);color:#94a3b8;padding:56px 24px 24px}
+.footer-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:white;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.footer-brand-desc{font-size:13px;line-height:1.7;max-width:240px;margin-bottom:12px}
+.demo-warn{display:inline-flex;align-items:center;gap:6px;background:#422006;color:#fbbf24;font-size:11px;padding:4px 10px;border-radius:6px;font-weight:500}
+footer h4{font-size:12px;font-weight:600;color:#e2e8f0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:14px}
+footer ul{list-style:none}
+footer ul li{margin-bottom:9px}
+footer ul li a{font-size:13px;color:#64748b;transition:color 0.15s;cursor:pointer}
+footer ul li a:hover{color:#e2e8f0}
+.coming-tag{font-size:10px;background:#1e293b;color:#64748b;padding:1px 6px;border-radius:4px;margin-left:6px}
+.footer-bottom{max-width:1100px;margin:0 auto;border-top:1px solid #1e293b;padding-top:20px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:12px;color:#475569}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .hero-inner,.about-hero-inner,.mission-grid,.contact-grid,.register-grid,.footer-grid{grid-template-columns:1fr}
+  .hero-img-wrap,.about-img,.mission-img{display:none}
+  .hero h1{font-size:28px}
+  .section-title{font-size:24px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  ⚠ <strong>Demo project</strong> — created for educational/testing purposes. Not affiliated with any Government of India ministry or department. All data is simulated.
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand" onclick="showPage('home')">
+      <div class="nav-logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 2L3 7v10l9 5 9-5V7L12 2zm0 2.18L19 8.5v7L12 19.32 5 15.5v-7L12 4.18z"/></svg>
+      </div>
+      <div class="nav-brand-text">
+        SEVA SETU
+        <span>National Non-Profit Registry</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <div class="nav-a11y">
+        <button onclick="adjustFont(-1)">A−</button>
+        <button onclick="adjustFont(0)">A</button>
+        <button onclick="adjustFont(1)">A+</button>
+      </div>
+      <div class="nav-links">
+        <a onclick="showPage('home')" id="nav-home" class="active">Home</a>
+        <a onclick="showPage('about')" id="nav-about">About Us</a>
+        <a onclick="showPage('directory')" id="nav-directory">NPO Directory</a>
+        <a onclick="showPage('portals')" id="nav-portals">Grant Portals</a>
+        <a onclick="showPage('contact')" id="nav-contact">Contact Us</a>
+        <a onclick="showPage('register')" class="nav-cta">Register</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     PAGE: HOME
+     ════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="hero-eyebrow">Single-Window NPO Registry · India</p>
+        <h1>A Digital Platform To Obtain <em>SETU Unique ID</em></h1>
+        <p class="hero-desc">Seva Setu is a single-window registry for Non-Profit Organizations enabling access to government grant portals, schemes, and benefits across India.</p>
+        <p class="hero-note">* The Registry does not issue any physical certificate. It only provides a Setu registration ID on the basis of a self-declared affidavit.</p>
+        <div class="hero-btns">
+          <button class="btn btn-primary" onclick="showPage('register')">Get Started →</button>
+          <button class="btn btn-ghost" onclick="showPage('about')">Learn More</button>
+        </div>
+        <div class="hero-advisory">
+          <strong>⚠ Important Advisory:</strong> Use of the Registry name/logo or the National Emblem is strictly prohibited. The Setu ID does not confer any endorsement or affiliation.
+        </div>
+      </div>
+      <div class="hero-img-wrap">
+        <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=900&q=70" alt="Community volunteers"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAT BAR -->
+  <div class="stat-bar">
+    <div class="stat-bar-inner">
+      <div class="stat-item"><div class="stat-num">5,73,984</div><div class="stat-label">Total Setu IDs Issued</div></div>
+      <div class="stat-item"><div class="stat-num">5,73,899</div><div class="stat-label">Active Setu IDs</div></div>
+      <div class="stat-item"><div class="stat-num">85</div><div class="stat-label">Blacklisted IDs</div></div>
+      <div class="stat-item"><div class="stat-num">9</div><div class="stat-label">Connected Grant Portals</div></div>
+      <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Organization Types</div></div>
+    </div>
+  </div>
+
+  <!-- WHO CAN APPLY -->
+  <section class="section">
+    <div class="section-inner">
+      <p class="eyebrow">Eligibility</p>
+      <h2 class="section-title">Who Can Apply?</h2>
+      <p class="section-sub">Seva Setu is open to all legally registered Non-Profit Organizations in India.</p>
+      <div class="cards-3">
+        <div class="card">
+          <div class="card-icon blue">🏛️</div>
+          <h3>Trusts</h3>
+          <p>Registered under the Indian Trusts Act or state-level trust legislation with a valid trust deed and current trustees.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon orange">🤝</div>
+          <h3>Societies</h3>
+          <p>Registered under the Societies Registration Act, 1860 with a functioning governing body and current bylaws.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon purple">🏢</div>
+          <h3>Section 8 Companies</h3>
+          <p>Non-profit companies incorporated under Section 8 of the Companies Act, 2013 with valid CIN.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <p class="eyebrow">Registration Process</p>
+      <h2 class="section-title">How to Register for SETU Unique ID</h2>
+      <p class="section-sub">Five steps · Typically completed within 7 working days · Free of charge</p>
+      <div class="steps">
+        <div class="step">
+          <span class="step-badge">STEP 01</span>
+          <div class="step-body"><h3>Verify organization type</h3><p>Confirm your NPO is a Trust, Society, or Section 8 Company with valid registration and a current governing body.</p></div>
+          <span class="step-time">⏱ 5 mins</span>
+        </div>
+        <div class="step">
+          <span class="step-badge">STEP 02</span>
+          <div class="step-body"><h3>Upload registration certificate</h3><p>Submit a scanned copy of your NPO's registration certificate issued by the relevant registering authority.</p></div>
+          <span class="step-time">⏱ 10 mins</span>
+        </div>
+        <div class="step">
+          <span class="step-badge">STEP 03</span>
+          <div class="step-body"><h3>Upload PAN &amp; governing body details</h3><p>Provide your organization's PAN and a complete list of current trustees or directors with their details.</p></div>
+          <span class="step-time">⏱ 10 mins</span>
+        </div>
+        <div class="step">
+          <span class="step-badge">STEP 04</span>
+          <div class="step-body"><h3>Verification review</h3><p>Our team reviews submitted documents. You may be contacted for additional clarification if needed.</p></div>
+          <span class="step-time">⏱ 3–7 days</span>
+        </div>
+        <div class="step">
+          <span class="step-badge">STEP 05</span>
+          <div class="step-body"><h3>Receive SETU ID</h3><p>Your unique Setu ID will be issued via email on approval. Use it immediately to apply for government grants.</p></div>
+          <span class="step-time">⏱ Instant</span>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:32px">
+        <button class="btn btn-blue" onclick="showPage('register')">Start Your Registration →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRANT PORTALS PREVIEW -->
+  <section class="section">
+    <div class="section-inner">
+      <p class="eyebrow">Grant Access</p>
+      <h2 class="section-title">Online Grant Application Portals</h2>
+      <p class="section-sub">Access official portals for submitting online grant applications to Government Ministries and Departments using your Setu ID.</p>
+      <div class="portal-grid">
+        <div class="portal-card"><span>Ministry of Social Justice</span><span class="portal-arrow">↗</span></div>
+        <div class="portal-card"><span>Ministry of Tribal Affairs</span><span class="portal-arrow">↗</span></div>
+        <div class="portal-card"><span>Ministry of AYUSH</span><span class="portal-arrow">↗</span></div>
+        <div class="portal-card"><span>Ministry of Tourism</span><span class="portal-arrow">↗</span></div>
+        <div class="portal-card"><span>Dept. of Higher Education</span><span class="portal-arrow">↗</span></div>
+        <div class="portal-card"><span>Ministry of Jal Shakti</span><span class="portal-arrow">↗</span></div>
+        <div class="portal-card"><span>Dept. of Biotechnology</span><span class="portal-arrow">↗</span></div>
+        <div class="portal-card"><span>Ministry of Minority Affairs</span><span class="portal-arrow">↗</span></div>
+        <div class="portal-card"><span>Atal Innovation Mission</span><span class="portal-arrow">↗</span></div>
+      </div>
+      <div style="text-align:center;margin-top:28px">
+        <button class="btn btn-navy" onclick="showPage('portals')">View All Grant Portals →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ PREVIEW -->
+  <section class="section section-alt">
+    <div class="section-inner centered">
+      <p class="eyebrow">FAQ</p>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-sub">Common questions about registration, eligibility, and the Setu ID.</p>
+      <div class="faq-list">
+        <details><summary>What is a Setu Unique ID?</summary><div class="faq-body">A Setu Unique ID is a digital identifier assigned to verified Non-Profit Organizations to enable access to government grant portals and schemes. It is issued on the basis of a self-declared affidavit and does not constitute a government endorsement.</div></details>
+        <details><summary>Is registration on Seva Setu mandatory?</summary><div class="faq-body">While not legally mandatory, a Setu ID may be required by specific ministries before processing grant applications. Check the eligibility criteria of each grant portal before applying.</div></details>
+        <details><summary>Does the Setu ID serve as a government endorsement?</summary><div class="faq-body">No. The Setu ID does not confer any endorsement, affiliation, or approval from any government body. Use of the Registry name, logo, or National Emblem is strictly prohibited.</div></details>
+        <details><summary>How long does verification take?</summary><div class="faq-body">Typically 3–7 working days after submission of complete documents. You will be notified via email at each stage of the process.</div></details>
+        <details><summary>Is there a fee for registration?</summary><div class="faq-body">Registration on Seva Setu is completely free of charge. No payment is required at any step.</div></details>
+        <details><summary>What if my documents are rejected?</summary><div class="faq-body">You will receive an email explaining the reason for rejection. You may resubmit corrected documents within 30 days without restarting the application process.</div></details>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: ABOUT
+     ════════════════════════════════════════ -->
+<div id="page-about" class="page">
+  <section class="about-hero">
+    <div class="about-hero-inner">
+      <div>
+        <div class="breadcrumb"><span onclick="showPage('home')" style="cursor:pointer;color:#93c5fd">Home</span> <span>/</span> About Us</div>
+        <h1>About Seva Setu</h1>
+        <p>Seva Setu is a digital initiative designed to simplify the process of identifying and registering Non-Profit Organizations in India. We bridge the gap between civil society and government grant programmes through a single, unified digital platform.</p>
+      </div>
+      <div class="about-img">
+        <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=900&q=70" alt="Team working together"/>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="mission-grid">
+        <div class="mission-text">
+          <p class="eyebrow">Our Mission</p>
+          <h2>Empowering NPOs with a Unified Identity</h2>
+          <p>India has over 3 million registered non-profit organizations but there is no single, authoritative registry to track them. Seva Setu fills this gap by providing a digital identity — the Setu Unique ID — that any NPO can obtain and use to access government programmes.</p>
+          <p>Our goal is not to replace existing registration systems but to serve as a layer on top of them — a trusted, verifiable source of identity that government ministries and departments can rely on when processing grant applications.</p>
+        </div>
+        <div class="mission-img">
+          <img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?auto=format&fit=crop&w=900&q=70" alt="Community impact"/>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="section-inner">
+      <p class="eyebrow">What We Stand For</p>
+      <h2 class="section-title">Our Core Values</h2>
+      <div class="cards-4">
+        <div class="card">
+          <div class="card-icon blue">🔍</div>
+          <h3>Transparency</h3>
+          <p>All registration data is self-declared. We publish regular reports on NPO status, activity, and blacklisting.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon green">🌐</div>
+          <h3>Accessibility</h3>
+          <p>Free to use, available in English and Hindi, and designed to work on low-bandwidth connections.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon orange">⚖️</div>
+          <h3>Non-endorsement</h3>
+          <p>The Setu ID is an identity tool only. It confers no government endorsement, approval, or affiliation.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon purple">🛡️</div>
+          <h3>Data Security</h3>
+          <p>All submitted documents are encrypted at rest and in transit. We follow MeitY data protection standards.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner centered">
+      <p class="eyebrow">Our Team</p>
+      <h2 class="section-title">The People Behind Seva Setu</h2>
+      <p class="section-sub">A small team dedicated to making civil society and government work better together.</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar" style="background:#1e3a5f">AR</div>
+          <h4>Arjun Rao</h4>
+          <p>Founder & Director</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:#1d6fb8">PM</div>
+          <h4>Priya Menon</h4>
+          <p>Head of Compliance</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:#16a34a">SK</div>
+          <h4>Sunita Khanna</h4>
+          <p>Technology Lead</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:#f97316">VN</div>
+          <h4>Vikram Nair</h4>
+          <p>Outreach & Partnerships</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:#7c3aed">DP</div>
+          <h4>Divya Pillai</h4>
+          <p>Policy Advisor</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: NPO DIRECTORY
+     ════════════════════════════════════════ -->
+<div id="page-directory" class="page">
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="breadcrumb"><span onclick="showPage('home')" style="cursor:pointer;color:#93c5fd">Home</span> <span>/</span> NPO Directory</div>
+      <h1>NPO Directory</h1>
+      <p>Search and verify any Non-Profit Organization registered with Seva Setu across India.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <p class="eyebrow">Search</p>
+      <h2 class="section-title">Find a Registered NPO</h2>
+      <div class="search-bar">
+        <select aria-label="Filter by state">
+          <option>All States</option><option>Maharashtra</option><option>Tamil Nadu</option>
+          <option>Karnataka</option><option>Kerala</option><option>Delhi</option>
+          <option>Gujarat</option><option>Rajasthan</option><option>West Bengal</option>
+        </select>
+        <select aria-label="NPO type">
+          <option>All Types</option><option>Trust</option><option>Society</option><option>Section 8 Company</option>
+        </select>
+        <select aria-label="Search by">
+          <option>Search by Name</option><option>Search by Setu ID</option><option>Search by Reg. No.</option>
+        </select>
+        <input type="text" placeholder="Enter name, Setu ID, or registration number…"/>
+        <button>Search</button>
+      </div>
+      <p class="search-note">⬡ Demo: search is not connected to a live database.</p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="section-inner">
+      <p class="eyebrow">Live Data</p>
+      <h2 class="section-title">Status of NPOs</h2>
+      <div class="stats-tabs" id="stats-tabs">
+        <button class="active" onclick="setTab(this,'all')">All India</button>
+        <button onclick="setTab(this,'mh')">Maharashtra</button>
+        <button onclick="setTab(this,'tn')">Tamil Nadu</button>
+        <button onclick="setTab(this,'ka')">Karnataka</button>
+        <button onclick="setTab(this,'kl')">Kerala</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="num" id="s-total">5,73,984</div><div class="lbl">Total Setu IDs</div></div>
+        <div class="stat-card"><div class="num" id="s-active">5,73,899</div><div class="lbl">Active IDs</div></div>
+        <div class="stat-card"><div class="num" id="s-black">85</div><div class="lbl">Blacklisted IDs</div></div>
+        <div class="stat-card"><div class="num" id="s-pending">124</div><div class="lbl">Pending Review</div></div>
+      </div>
+      <table class="data-table" id="npo-table">
+        <thead><tr><th>Type</th><th>Count</th><th>Share</th><th>Status</th></tr></thead>
+        <tbody id="npo-tbody">
+          <tr><td>Trust</td><td>2,86,154</td><td>49.86%</td><td><span class="pill pill-green">Active</span></td></tr>
+          <tr><td>Society</td><td>2,36,395</td><td>41.19%</td><td><span class="pill pill-green">Active</span></td></tr>
+          <tr><td>Section 8 Company</td><td>51,350</td><td>8.95%</td><td><span class="pill pill-green">Active</span></td></tr>
+        </tbody>
+      </table>
+      <p class="source-note">⬡ Demo data for illustrative purposes only — not sourced from any live database. &nbsp;|&nbsp; Last Updated: June 2026</p>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: GRANT PORTALS
+     ════════════════════════════════════════ -->
+<div id="page-portals" class="page">
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="breadcrumb"><span onclick="showPage('home')" style="cursor:pointer;color:#93c5fd">Home</span> <span>/</span> Grant Portals</div>
+      <h1>Online Grant Application Portals</h1>
+      <p>Access official portals for submitting online grant applications to various Government Ministries and Departments using your Setu ID.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <p class="eyebrow">All Portals</p>
+      <h2 class="section-title">9 Connected Ministries &amp; Departments</h2>
+      <p class="section-sub">Your Setu ID unlocks access to grant portals across these government bodies. Click any portal to learn more.</p>
+      <div class="cards-3" style="margin-top:36px">
+        <div class="card" style="border-left:4px solid var(--blue)">
+          <div class="card-icon blue">🏛</div>
+          <h3>Ministry of Social Justice and Empowerment</h3>
+          <p>Grants for welfare of SCs, OBCs, senior citizens, persons with disabilities, and victims of drug abuse.</p>
+          <p style="margin-top:14px"><a href="#" style="color:var(--blue);font-size:13px;font-weight:500">Visit Portal ↗</a></p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--blue)">
+          <div class="card-icon orange">🌿</div>
+          <h3>Ministry of Tribal Affairs</h3>
+          <p>Grants for tribal communities including education, health, livelihood, and cultural preservation programmes.</p>
+          <p style="margin-top:14px"><a href="#" style="color:var(--blue);font-size:13px;font-weight:500">Visit Portal ↗</a></p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--blue)">
+          <div class="card-icon green">🌱</div>
+          <h3>Ministry of AYUSH</h3>
+          <p>Support for organizations promoting Ayurveda, Yoga, Naturopathy, Unani, Siddha, and Homeopathy.</p>
+          <p style="margin-top:14px"><a href="#" style="color:var(--blue);font-size:13px;font-weight:500">Visit Portal ↗</a></p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--blue)">
+          <div class="card-icon purple">✈️</div>
+          <h3>Ministry of Tourism</h3>
+          <p>Grants for heritage conservation, rural tourism development, and hospitality training programmes.</p>
+          <p style="margin-top:14px"><a href="#" style="color:var(--blue);font-size:13px;font-weight:500">Visit Portal ↗</a></p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--blue)">
+          <div class="card-icon blue">🎓</div>
+          <h3>Department of Higher Education</h3>
+          <p>Support for scholarship programmes, vocational training centres, and educational infrastructure.</p>
+          <p style="margin-top:14px"><a href="#" style="color:var(--blue);font-size:13px;font-weight:500">Visit Portal ↗</a></p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--blue)">
+          <div class="card-icon blue">💧</div>
+          <h3>Ministry of Jal Shakti</h3>
+          <p>Community-led water conservation, sanitation, and rural drinking water access projects.</p>
+          <p style="margin-top:14px"><a href="#" style="color:var(--blue);font-size:13px;font-weight:500">Visit Portal ↗</a></p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--blue)">
+          <div class="card-icon green">🔬</div>
+          <h3>Department of Biotechnology</h3>
+          <p>Research grants and innovation support for biotechnology-focused non-profit institutions.</p>
+          <p style="margin-top:14px"><a href="#" style="color:var(--blue);font-size:13px;font-weight:500">Visit Portal ↗</a></p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--blue)">
+          <div class="card-icon orange">☪️</div>
+          <h3>Ministry of Minority Affairs</h3>
+          <p>Grants supporting education, skill development, and welfare of minority communities across India.</p>
+          <p style="margin-top:14px"><a href="#" style="color:var(--blue);font-size:13px;font-weight:500">Visit Portal ↗</a></p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--blue)">
+          <div class="card-icon purple">💡</div>
+          <h3>Atal Innovation Mission</h3>
+          <p>Support for innovation ecosystems, atal tinkering labs, and entrepreneurship development programmes.</p>
+          <p style="margin-top:14px"><a href="#" style="color:var(--blue);font-size:13px;font-weight:500">Visit Portal ↗</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="badges-strip">
+    <div class="badges-strip-inner">
+      <p class="badges-eyebrow">Portals accessible via Setu ID</p>
+      <div class="badges-wrap">
+        <span class="badge-pill">Ministry of Social Justice</span>
+        <span class="badge-pill">Ministry of Tribal Affairs</span>
+        <span class="badge-pill">Ministry of AYUSH</span>
+        <span class="badge-pill">Ministry of Tourism</span>
+        <span class="badge-pill">Dept. of Higher Education</span>
+        <span class="badge-pill">Ministry of Jal Shakti</span>
+        <span class="badge-pill">Dept. of Biotechnology</span>
+        <span class="badge-pill">Ministry of Minority Affairs</span>
+        <span class="badge-pill">Atal Innovation Mission</span>
+      </div>
+      <p style="font-size:11px;color:#94a3b8;margin-top:12px">Demo project · Ministry connections shown for illustrative purposes only</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: CONTACT
+     ════════════════════════════════════════ -->
+<div id="page-contact" class="page">
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="breadcrumb"><span onclick="showPage('home')" style="cursor:pointer;color:#93c5fd">Home</span> <span>/</span> Contact Us</div>
+      <h1>Contact Us</h1>
+      <p>Have a question about registration, your Setu ID, or the grant portals? Get in touch with our team.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div class="contact-form">
+          <h3>Send a Message</h3>
+          <div class="form-group"><label>Full name</label><input type="text" placeholder="Your name"/></div>
+          <div class="form-group"><label>Email address</label><input type="email" placeholder="your@email.com"/></div>
+          <div class="form-group"><label>Subject</label>
+            <select>
+              <option>General Enquiry</option>
+              <option>Registration Support</option>
+              <option>Setu ID Issue</option>
+              <option>Grant Portal Access</option>
+              <option>Report a Problem</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Message</label><textarea placeholder="Describe your query in detail…"></textarea></div>
+          <button class="btn btn-blue" style="width:100%;justify-content:center">Send Message →</button>
+          <p style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:12px">Demo form — messages are not actually sent.</p>
+        </div>
+        <div class="contact-info">
+          <h3>Get in Touch</h3>
+          <div class="contact-item">
+            <div class="contact-icon">📧</div>
+            <div class="contact-item-text">
+              <h4>Email</h4>
+              <p>helpdesk@sevasetu.gov.in<br/>(Demo address — not monitored)</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div class="contact-item-text">
+              <h4>Helpline</h4>
+              <p>1800-XXX-XXXX (Toll Free)<br/>Mon–Fri, 9 AM – 6 PM IST</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🏢</div>
+            <div class="contact-item-text">
+              <h4>Office</h4>
+              <p>Seva Setu Registry<br/>Ministry Block, New Delhi – 110001<br/>(Demo address)</p>
+            </div>
+          </div>
+          <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:18px;margin-top:8px">
+            <h4 style="font-size:13px;font-weight:600;margin-bottom:8px">⚠ Important</h4>
+            <p style="font-size:12px;color:var(--text-muted);line-height:1.6">This is a demo project. No real support is available. All contact details shown are illustrative only and are not affiliated with any government body.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: REGISTER
+     ════════════════════════════════════════ -->
+<div id="page-register" class="page">
+  <section class="register-hero">
+    <div style="max-width:1100px;margin:0 auto;padding:0">
+      <div class="breadcrumb" style="margin-bottom:16px"><span onclick="showPage('home')" style="cursor:pointer;color:#93c5fd">Home</span> <span>/</span> Register</div>
+      <h1 style="font-size:36px;font-weight:700;margin-bottom:10px">Register Your NPO</h1>
+      <p style="font-size:15px;color:#bfdbfe;max-width:560px;line-height:1.7">Obtain your Setu Unique ID in minutes. Registration is free. Your information is protected and will only be used for verification.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="register-grid">
+        <div class="register-form">
+          <h3>NPO Registration Form</h3>
+          <p>All fields marked * are required. This is a demo form.</p>
+          <div class="form-row">
+            <div class="form-group"><label>Organization name *</label><input type="text" placeholder="Legal name of NPO"/></div>
+            <div class="form-group"><label>Organization type *</label>
+              <select><option>Select type</option><option>Trust</option><option>Society</option><option>Section 8 Company</option></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Registration number *</label><input type="text" placeholder="As per registration certificate"/></div>
+            <div class="form-group"><label>PAN number *</label><input type="text" placeholder="10-character PAN"/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>State *</label>
+              <select><option>Select state</option><option>Maharashtra</option><option>Tamil Nadu</option><option>Karnataka</option><option>Kerala</option><option>Delhi</option></select>
+            </div>
+            <div class="form-group"><label>Year of establishment *</label><input type="number" placeholder="e.g. 2005"/></div>
+          </div>
+          <div class="form-group"><label>Registered office address *</label><textarea placeholder="Full address including PIN code" style="min-height:80px"></textarea></div>
+          <div class="form-row">
+            <div class="form-group"><label>Contact person name *</label><input type="text" placeholder="Name of authorized person"/></div>
+            <div class="form-group"><label>Contact email *</label><input type="email" placeholder="official@nponame.org"/></div>
+          </div>
+          <div class="form-group"><label>Upload registration certificate *</label><input type="file" accept=".pdf,.jpg,.png"/></div>
+          <div class="form-group"><label>Upload PAN card *</label><input type="file" accept=".pdf,.jpg,.png"/></div>
+          <div class="form-group" style="display:flex;align-items:flex-start;gap:10px">
+            <input type="checkbox" id="affidavit" style="margin-top:3px;width:auto"/>
+            <label for="affidavit" style="font-size:13px;color:var(--text-muted);font-weight:400">I confirm that all information provided is accurate and submit this as a self-declared affidavit on behalf of the organization.</label>
+          </div>
+          <button class="btn btn-blue" style="width:100%;justify-content:center;font-size:14px">Submit Registration →</button>
+          <p style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:10px">Demo form — no data is submitted or stored.</p>
+        </div>
+        <div class="register-aside">
+          <h3>Required Documents</h3>
+          <ul class="checklist">
+            <li><span class="check-icon">✓</span><span>Registration certificate of the NPO</span></li>
+            <li><span class="check-icon">✓</span><span>PAN card of the organization</span></li>
+            <li><span class="check-icon">✓</span><span>Governing body / board of trustees details</span></li>
+            <li><span class="check-icon">✓</span><span>Registered office address proof</span></li>
+            <li><span class="check-icon">✓</span><span>Self-declared affidavit (prescribed format)</span></li>
+            <li><span class="check-icon">✓</span><span>Bank account details of the NPO</span></li>
+          </ul>
+
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:18px;margin-top:28px">
+            <h4 style="font-size:14px;font-weight:600;color:#15803d;margin-bottom:8px">✓ Free Registration</h4>
+            <p style="font-size:13px;color:#166534;line-height:1.6">Registration on Seva Setu is completely free of charge at all steps.</p>
+          </div>
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:18px;margin-top:12px">
+            <h4 style="font-size:14px;font-weight:600;color:#1e3a5f;margin-bottom:8px">⏱ Processing Time</h4>
+            <p style="font-size:13px;color:#1e40af;line-height:1.6">Your Setu ID will typically be issued within 3–7 working days of submitting complete documents.</p>
+          </div>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:18px;margin-top:12px">
+            <h4 style="font-size:14px;font-weight:600;color:#9a3412;margin-bottom:8px">⚠ Reminder</h4>
+            <p style="font-size:13px;color:#c2410c;line-height:1.6">The Setu ID is not a government endorsement. It does not replace your NPO's existing registration or legal status.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════
+     FOOTER (shared)
+     ════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">
+        <div style="width:28px;height:28px;background:#1d6fb8;border-radius:7px;display:flex;align-items:center;justify-content:center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2L3 7v10l9 5 9-5V7L12 2zm0 2.18L19 8.5v7L12 19.32 5 15.5v-7L12 4.18z"/></svg>
+        </div>
+        SEVA SETU
+      </div>
+      <p class="footer-brand-desc">A demo digital platform enabling NPOs to obtain a unique Setu ID and access government grant portals across India.</p>
+      <span class="demo-warn">⚠ Demo — Not a Government Service</span>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('about')">About Seva Setu</a></li>
+        <li><a onclick="showPage('directory')">NPO Directory</a></li>
+        <li><a onclick="showPage('portals')">Grant Portals</a></li>
+        <li><a onclick="showPage('register')">Register</a></li>
+        <li><a onclick="showPage('contact')">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">Circulars<span class="coming-tag">Soon</span></a></li>
+        <li><a onclick="showPage('home')">FAQ</a></li>
+        <li><a href="#">Guidelines<span class="coming-tag">Soon</span></a></li>
+        <li><a href="#">Affidavit Format<span class="coming-tag">Soon</span></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Data Protection</a></li>
+        <li><a href="#">Accessibility Statement</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Seva Setu · National Non-Profit Registry Prototype</span>
+    <span style="color:#ca8a04">⚠ Not affiliated with Government of India</span>
+  </div>
+</footer>
+
+<script>
+const pages=['home','about','directory','portals','contact','register'];
+
+function showPage(name){
+  pages.forEach(p=>{
+    document.getElementById('page-'+p).classList.toggle('active',p===name);
+    const n=document.getElementById('nav-'+p);
+    if(n)n.classList.toggle('active',p===name);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+let fs=15;
+function adjustFont(d){
+  if(d===0)fs=15; else fs=Math.min(20,Math.max(12,fs+(d*1.5)));
+  document.body.style.fontSize=fs+'px';
+}
+
+const tabData={
+  all:{total:'5,73,984',active:'5,73,899',black:'85',pending:'124',rows:[['Trust','2,86,154','49.86%'],['Society','2,36,395','41.19%'],['Section 8 Company','51,350','8.95%']]},
+  mh:{total:'1,21,443',active:'1,21,390',black:'53',pending:'31',rows:[['Trust','58,210','47.93%'],['Society','52,841','43.51%'],['Section 8 Company','10,392','8.56%']]},
+  tn:{total:'89,204',active:'89,164',black:'40',pending:'22',rows:[['Trust','41,220','46.21%'],['Society','38,904','43.61%'],['Section 8 Company','9,080','10.18%']]},
+  ka:{total:'76,331',active:'76,305',black:'26',pending:'18',rows:[['Trust','35,101','46.00%'],['Society','33,422','43.78%'],['Section 8 Company','7,808','10.23%']]},
+  kl:{total:'54,822',active:'54,799',black:'23',pending:'14',rows:[['Trust','24,901','45.42%'],['Society','24,108','43.97%'],['Section 8 Company','5,813','10.60%']]}
+};
+
+function setTab(btn,key){
+  document.querySelectorAll('#stats-tabs button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const d=tabData[key];
+  document.getElementById('s-total').textContent=d.total;
+  document.getElementById('s-active').textContent=d.active;
+  document.getElementById('s-black').textContent=d.black;
+  document.getElementById('s-pending').textContent=d.pending;
+  document.getElementById('npo-tbody').innerHTML=d.rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td><span class="pill pill-green">Active</span></td></tr>`).join('');
+}
+</script>
+</body>
+</html>
